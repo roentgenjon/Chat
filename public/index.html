@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Registration Screen -->
+  <div id="screen-register" class="screen">
+    <div class="register-card">
+      <div class="register-logo">💬</div>
+      <h1>Willkommen</h1>
+      <p class="register-sub">Gib deinen Namen ein, um loszulegen.</p>
+      <form id="register-form">
+        <input id="register-name" type="text" placeholder="Dein Name" maxlength="40" autocomplete="off" required>
+        <div id="register-error" class="error-msg"></div>
+        <button type="submit">Konto erstellen</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="screen-app" class="screen hidden">
+    <!-- Sidebar -->
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <span id="my-name" class="my-name"></span>
+        <button id="btn-new-chat" class="icon-btn" title="Neuer Chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+        </button>
+      </div>
+      <div id="conv-list"></div>
+    </aside>
+
+    <!-- Chat Area -->
+    <main id="chat-area">
+      <div id="empty-state">
+        <div class="empty-icon">💬</div>
+        <p>Wähle einen Chat oder starte einen neuen</p>
+      </div>
+
+      <div id="chat-view" class="hidden">
+        <div id="chat-header">
+          <button id="btn-back" class="icon-btn back-btn" title="Zurück">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
+          </button>
+          <img id="chat-avatar" class="header-avatar" src="" alt="">
+          <div class="header-info">
+            <span id="chat-title"></span>
+            <span id="chat-subtitle"></span>
+          </div>
+        </div>
+        <div id="messages-container">
+          <div id="load-more-wrap">
+            <button id="btn-load-more">Ältere Nachrichten laden</button>
+          </div>
+          <div id="messages"></div>
+        </div>
+        <form id="message-form">
+          <label id="btn-media" class="icon-btn media-btn" title="Foto / Video">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <path d="M21 15l-5-5L5 21"/>
+            </svg>
+            <input id="media-input" type="file" accept="image/*,video/*" hidden>
+          </label>
+          <input id="message-input" type="text" placeholder="Nachricht…" autocomplete="off">
+          <button type="submit" class="send-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <!-- New Chat Modal -->
+  <div id="modal-new-chat" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Neuer Chat</h2>
+        <button class="close-modal icon-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-hint">Wähle eine oder mehrere Personen aus.</p>
+        <input id="user-search" type="text" placeholder="Suchen…" autocomplete="off">
+        <div id="user-list"></div>
+        <div id="step-group" class="hidden">
+          <hr>
+          <p class="modal-hint">Gruppenname und Titelbild</p>
+          <input id="group-name-input" type="text" placeholder="Gruppenname" maxlength="60">
+          <label class="avatar-upload-label">
+            <span id="avatar-preview-text">Titelbild auswählen (optional)</span>
+            <img id="avatar-preview-img" src="" alt="" class="hidden">
+            <input id="group-avatar-input" type="file" accept="image/*" hidden>
+          </label>
+        </div>
+        <div id="new-chat-error" class="error-msg"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-create-chat" disabled>Erstellen</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
