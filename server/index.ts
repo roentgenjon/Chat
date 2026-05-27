@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import { createServer } from 'http';
 import { Server as SocketServer } from 'socket.io';
 import path from 'path';
-import './db';
+import { UPLOADS_DIR } from './db';
 import usersRouter from './routes/users';
 import { createConversationsRouter } from './routes/conversations';
 import { createMessagesRouter } from './routes/messages';
@@ -14,7 +14,7 @@ const io = new SocketServer(httpServer, { cors: { origin: '*' } });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+app.use('/uploads', express.static(UPLOADS_DIR));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use('/api/users', usersRouter);
