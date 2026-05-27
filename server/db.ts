@@ -2,7 +2,12 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import fs from 'fs';
 
-const DB_PATH = path.join(__dirname, '..', 'chat.db');
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, '..');
+const DB_PATH = path.join(DATA_DIR, 'chat.db');
+
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+}
 
 const db = new Database(DB_PATH);
 
@@ -46,9 +51,11 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_members_user ON conversation_members(user_id);
 `);
 
-const uploadsDir = path.join(__dirname, '..', 'uploads');
+const uploadsDir = path.join(DATA_DIR, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
+
+export const UPLOADS_DIR = uploadsDir;
 
 export default db;
